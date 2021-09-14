@@ -10,8 +10,8 @@ const useImageRect = () => {
     setImageRect({
       left: 0,
       top: 0,
-      width: ref.current ? ref.current.width : 0,
-      height: ref.current ? ref.current.height : 0,
+      width: ref.current ? ref.current.naturalWidth : 0,
+      height: ref.current ? ref.current.naturalHeight : 0,
     });
   };
 
@@ -19,7 +19,7 @@ const useImageRect = () => {
     if (ref.current && ref.current.complete) {
       onLoad();
     }
-  });
+  }, []);
 
   return [ref, imageRect, onLoad] as const;
 };
