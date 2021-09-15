@@ -11,7 +11,6 @@ const containerStyles: CSSProperties = {
   overflow: "hidden",
   border: "0px",
   margin: "0px",
-  minHeight: "100vh",
 };
 
 const EssentialRectImg: React.FC<{
@@ -40,6 +39,7 @@ const EssentialRectImg: React.FC<{
 
   return (
     <div
+      className="EssentialRectImg"
       style={containerStyles}
       ref={containerRef}
     >

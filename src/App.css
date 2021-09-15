@@ -1,7 +1,45 @@
 
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  min-height: 100vh;
 }
+
+.App .EssentialRectImg {
+  flex-grow: 1;
+}
+
+.overlay {
+  z-index: 10;
+  position: fixed;
+  bottom: 1em;
+  left: 1em;
+  right: 1em;
+  font-size: large;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  font-size: min(5vw, 5vh);
+}
+
+.controls div {
+  background-color: black;
+  padding: 0.2em;
+}
+
+@media all and (display-mode: fullscreen) {
+  .controls-fullscreen {
+    display: none;
+  }  
+}
+
+/* ------ */
 
 .App-logo {
   height: 40vmin;
