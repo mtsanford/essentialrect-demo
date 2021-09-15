@@ -20,7 +20,7 @@ const slides = [
     type: "essentialRect",
   },
   {
-    url: "./images/SF_DOWNTOWN_001.JPG",
+    url: "./images/downtown.jpg",
     essentialRect: { left: 537, top: 72, width: 645, height: 602 },
     type: "essentialRect",
   },
