@@ -1,13 +1,19 @@
 import React, {
   CSSProperties,
-  MouseEvent,
   MouseEventHandler,
   useState,
+  useReducer,
+  useEffect,
 } from "react";
 
 import "./App.css";
+import slides from "./slides";
 import RegularFitImage from "./components/RegularFitImage";
 import EssentialRectImg from "./essential-rect/EssentialRectImg";
+import useClientRect from "./essential-rect/use-client-rect";
+
+import rotatePortrait from "./assets/icons/rotate_portrait.png";
+import rotateLandscape from "./assets/icons/rotate_landscape.png";
 
 function Logo() {
   return (
@@ -31,90 +37,123 @@ function Rotate() {
   );
 }
 
-const slides = [
-  {
-    type: "logo",
-  },
-  {
-    type: "rotate",
-  },
-  {
-    url: "./images/downtown.jpg",
-    type: "regular",
-    caption: "This is a typical photo taken on a phone before editing",
-  },
-  {
-    url: "./images/downtown_cropped.jpg",
-    type: "regular",
-    caption: "Photos are typically cropped before publishing to give it a good composition",
-  },
-  {
-    url: "./images/downtown_cropped.jpg",
-    type: "regular",
-    caption: "This is an 'opinionated composition', and does not look good on different displays.  Try it.",
-  },
-  {
-    url: "./images/downtown_essentialrect.jpg",
-    type: "regular",
-    caption: "Instead, an essentialRect can be defined for the image, defining what is most important.",
-  },
-  {
-    url: "./images/downtown_essentialrect.jpg",
-    type: "regular",
-    caption: "This is 'agnostic composition', and allows an image to look good on different displays",
-  },
-  {
-    url: "./images/downtown.jpg",
-    essentialRect: { left: 537, top: 72, width: 645, height: 602 },
-    type: "essentialRect",
-    caption: "Try rotating phone, or resizing the browser."
-  },
-  {
-    url: "./images/downtown.jpg",
-    essentialRect: { left: 537, top: 72, width: 645, height: 602 },
-    type: "essentialRect",
-  },
-  {
-    url: "./images/sax.jpg",
-    type: "regular",
-    caption: "Here is another example",
-  },
-  {
-    url: "./images/sax-hd-responsive-fit.jpg",
-    essentialRect: {left:825,top:75,width:621,height:755},
-    type: "regular",
-  },
-  {
-    url: "./images/sax.jpg",
-    essentialRect: {left:825,top:75,width:621,height:755},
-    type: "essentialRect",
-  },
-  {
-    type: "logo",
-  },
-];
+type Orientation = "portrait" | "landscape" | undefined;
+
+interface OrientationState {
+  slideIndex: number;
+  initialOrientation: Orientation;
+  currentOrientation: Orientation;
+  orientationChanged: boolean;
+}
+
+const orientationInitialState: OrientationState = {
+  slideIndex: 0,
+  initialOrientation: undefined,
+  currentOrientation: undefined,
+  orientationChanged: false,
+};
+
+const orientationReducer = (
+  state: OrientationState,
+  action: any
+): OrientationState => {
+  switch (action.type) {
+    case "resize":
+      const orientation: Orientation =
+        action.rect.width >= action.rect.height ? "landscape" : "portrait";
+      if (state.initialOrientation === undefined) {
+        return {
+          slideIndex: state.slideIndex,
+          initialOrientation: orientation,
+          currentOrientation: orientation,
+          orientationChanged: false,
+        };
+      } else {
+        const orientationChanged =
+          state.initialOrientation !== orientation || state.orientationChanged;
+        if (orientationChanged) {
+          console.log(`orientation changed`);
+        }
+        return {
+          ...state,
+          currentOrientation: orientation,
+          orientationChanged: orientationChanged,
+        };
+      }
+    case "next":
+      if (state.slideIndex >= slides.length - 1) return state;
+      return {
+        slideIndex: state.slideIndex + 1,
+        initialOrientation: state.currentOrientation,
+        currentOrientation: state.currentOrientation,
+        orientationChanged: false,
+      };
+    case "previous":
+      if (state.slideIndex <= 0) return state;
+      return {
+        slideIndex: state.slideIndex - 1,
+        initialOrientation: state.currentOrientation,
+        currentOrientation: state.currentOrientation,
+        orientationChanged: false,
+      };
+    default:
+      return { ...state };
+  }
+};
+
+function RequestRotate(props: any) {
+  if (props.orientation === "portrait") {
+    return (
+      <div className="requestrotate-wrapper">
+        <img src={rotateLandscape} alt=""/>
+        To continue, rotate phone to landscape orientation, or resize browser
+      </div>
+    );
+  }
+  else {
+    return (
+      <div className="requestrotate-wrapper">
+        <img src={rotatePortrait} alt=""/>
+        To continue, rotate phone to portrait orientation, or resize browser
+      </div>
+    );
+  }
+}
 
 function App() {
   let content;
-  const [slideIndex, setSlideIndex] = useState<number>(0);
-  const slide: any = slides[slideIndex];
+  // const [slideIndex, setSlideIndex] = useState<number>(0);
+  const [orientation, dispatchOrientation] = useReducer(
+    orientationReducer,
+    orientationInitialState
+  );
+  const [appRef, appRect] = useClientRect();
+  const slide: any = slides[orientation.slideIndex];
   const caption = slide.caption;
 
-  const nextEnabled = slideIndex < slides.length - 1;
-  const previousEnabled = slideIndex > 0;
+  const requireRotate = slide.requireRotate && !orientation.orientationChanged;
+  const nextEnabled = orientation.slideIndex < slides.length - 1 && !requireRotate;
+  const previousEnabled = orientation.slideIndex > 0;
+
+  useEffect(() => {
+    dispatchOrientation({
+      type: "resize",
+      rect: appRect,
+    });
+  }, [appRect]);
 
   const previousHandler: MouseEventHandler<HTMLDivElement> = (event) => {
     event.preventDefault();
     if (!previousEnabled) return;
     console.log("previous");
-    setSlideIndex((prev: number) => prev - 1);
+    dispatchOrientation({ type: "previous" });
   };
 
   const nextHandler: MouseEventHandler<HTMLDivElement> = (event) => {
     event.preventDefault();
     if (!nextEnabled) return;
     console.log("next");
-    setSlideIndex((prev: number) => prev + 1);
+    dispatchOrientation({ type: "next" });
   };
 
   const fullScreenHandler: MouseEventHandler<HTMLDivElement> = (event) => {
@@ -148,7 +187,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className="App" ref={appRef}>
       <div className="overlay">
         <div className="controls">
           <div
@@ -170,9 +209,12 @@ function App() {
           </div>
         </div>
       </div>
+      {requireRotate && <RequestRotate orientation={orientation.currentOrientation} />}
       {caption && (
         <div className="caption">
-          <p>{caption}</p>
+          <p>
+            {caption}
+          </p>
         </div>
       )}
       {content}
