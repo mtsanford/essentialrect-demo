@@ -39,16 +39,16 @@ type Orientation = "portrait" | "landscape" | undefined;
 
 interface OrientationState {
   slideIndex: number;
+  orientationChanged: boolean[];
   initialOrientation: Orientation;
   currentOrientation: Orientation;
-  orientationChanged: boolean;
 }
 
 const orientationInitialState: OrientationState = {
   slideIndex: 0,
+  orientationChanged: [],
   initialOrientation: undefined,
   currentOrientation: undefined,
-  orientationChanged: false,
 };
 
 const orientationReducer = (
@@ -62,37 +62,40 @@ const orientationReducer = (
       if (state.initialOrientation === undefined) {
         return {
           slideIndex: state.slideIndex,
+          orientationChanged: state.orientationChanged,
           initialOrientation: orientation,
           currentOrientation: orientation,
-          orientationChanged: false,
         };
       } else {
         const orientationChanged =
-          state.initialOrientation !== orientation || state.orientationChanged;
+          state.initialOrientation !== orientation;
+        
+        let orientationChangedNew = [...state.orientationChanged];
         if (orientationChanged) {
-          console.log(`orientation changed`);
+          orientationChangedNew[state.slideIndex] = true;
         }
+
         return {
           ...state,
+          orientationChanged: orientationChangedNew,
           currentOrientation: orientation,
-          orientationChanged: orientationChanged,
         };
       }
     case "next":
       if (state.slideIndex >= slides.length - 1) return state;
       return {
         slideIndex: state.slideIndex + 1,
+        orientationChanged: state.orientationChanged,
         initialOrientation: state.currentOrientation,
         currentOrientation: state.currentOrientation,
-        orientationChanged: false,
       };
     case "previous":
       if (state.slideIndex <= 0) return state;
       return {
         slideIndex: state.slideIndex - 1,
+        orientationChanged: state.orientationChanged,
         initialOrientation: state.currentOrientation,
         currentOrientation: state.currentOrientation,
-        orientationChanged: false,
       };
     default:
       return { ...state };
@@ -126,7 +129,7 @@ function App() {
   const slide: any = slides[orientation.slideIndex];
   const caption = slide.caption;
 
-  const requireRotate = slide.requireRotate && !orientation.orientationChanged;
+  const requireRotate = slide.requireRotate && !orientation.orientationChanged[orientation.slideIndex];
   const nextEnabled =
     orientation.slideIndex < slides.length - 1 && !requireRotate;
   const previousEnabled = orientation.slideIndex > 0;
