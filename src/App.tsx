@@ -102,22 +102,20 @@ const orientationReducer = (
 };
 
 function RequestRotate(props: any) {
-  if (props.orientation === "portrait") {
-    return (
-      <div className="requestrotate-wrapper">
-        <img src={rotateLandscape} alt=""/>
-        To continue, rotate phone to landscape orientation, or resize browser
-      </div>
-    );
-  }
-  else {
-    return (
-      <div className="requestrotate-wrapper">
-        <img src={rotatePortrait} alt=""/>
-        To continue, rotate phone to portrait orientation, or resize browser
-      </div>
-    );
-  }
+  const icon =
+    props.orientation === "portrait" ? rotateLandscape : rotatePortrait;
+  const orientationText =
+    props.orientation === "portrait" ? "landscape" : "portrait";
+
+  return (
+    <div className="requestrotate-wrapper">
+      <img src={icon} alt="" />
+      <p>
+        To continue, rotate phone to {orientationText} orientation, or resize
+        browser
+      </p>
+    </div>
+  );
 }
 
 function App() {
@@ -132,7 +130,8 @@ function App() {
   const caption = slide.caption;
 
   const requireRotate = slide.requireRotate && !orientation.orientationChanged;
-  const nextEnabled = orientation.slideIndex < slides.length - 1 && !requireRotate;
+  const nextEnabled =
+    orientation.slideIndex < slides.length - 1 && !requireRotate;
   const previousEnabled = orientation.slideIndex > 0;
 
   useEffect(() => {
@@ -189,34 +188,32 @@ function App() {
   return (
     <div className="App" ref={appRef}>
       <div className="overlay">
-        <div className="controls">
-          <div
-            className="controls-previous"
-            style={prevStyles}
-            onClick={previousHandler}
-          >
-            previous
-          </div>
-          {/* <div className="controls-fullscreen" onClick={fullScreenHandler}>
+        <div className="overlay-content">
+          {true && (
+            <RequestRotate orientation={orientation.currentOrientation} />
+          )}
+          {caption && <div className="caption">{caption}</div>}
+          <div className="controls">
+            <div
+              className="controls-previous"
+              style={prevStyles}
+              onClick={previousHandler}
+            >
+              previous
+            </div>
+            {/* <div className="controls-fullscreen" onClick={fullScreenHandler}>
             fullscreen
           </div> */}
-          <div
-            className="controls-next"
-            style={nextStyles}
-            onClick={nextHandler}
-          >
-            next
+            <div
+              className="controls-next"
+              style={nextStyles}
+              onClick={nextHandler}
+            >
+              next
+            </div>
           </div>
         </div>
       </div>
-      {requireRotate && <RequestRotate orientation={orientation.currentOrientation} />}
-      {caption && (
-        <div className="caption">
-          <p>
-            {caption}
-          </p>
-        </div>
-      )}
       {content}
     </div>
   );
