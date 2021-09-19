@@ -1,7 +1,6 @@
 const slides = [
   {
     type: "logo",
-    requireRotate: true,
   },
   {
     type: "rotate",
@@ -22,7 +21,13 @@ const slides = [
     url: "./images/downtown_cropped.jpg",
     type: "regular",
     caption:
-      "This is an 'opinionated composition', and does not look good on different displays.  Try it.",
+      "This is an 'opinionated composition', and does not look good on different displays.",
+    requireRotate: true,
+  },
+  {
+    url: "./images/downtown_cropped.jpg",
+    type: "regular",
+    requireRotate: true,
   },
   {
     url: "./images/downtown_essentialrect.jpg",
@@ -40,12 +45,8 @@ const slides = [
     url: "./images/downtown.jpg",
     essentialRect: { left: 537, top: 72, width: 645, height: 602 },
     type: "essentialRect",
-    caption: "Try rotating phone, or resizing the browser.",
-  },
-  {
-    url: "./images/downtown.jpg",
-    essentialRect: { left: 537, top: 72, width: 645, height: 602 },
-    type: "essentialRect",
+    requireRotate: true,
+    caption: 'The image looks good in a wide range of aspect ratios'
   },
   {
     url: "./images/sax.jpg",

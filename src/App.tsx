@@ -133,6 +133,7 @@ function App() {
   const nextEnabled =
     orientation.slideIndex < slides.length - 1 && !requireRotate;
   const previousEnabled = orientation.slideIndex > 0;
+  const captionText = !requireRotate && caption;
 
   useEffect(() => {
     dispatchOrientation({
@@ -140,6 +141,14 @@ function App() {
       rect: appRect,
     });
   }, [appRect]);
+
+  useEffect( () => {
+    const dynamicAppHeight = () => {
+      const doc = document.documentElement
+      doc.style.setProperty('--app-height', `${window.innerHeight}px`)    
+    }
+    window.addEventListener('resize', dynamicAppHeight);
+  }, []);
 
   const previousHandler: MouseEventHandler<HTMLDivElement> = (event) => {
     event.preventDefault();
@@ -153,11 +162,6 @@ function App() {
     if (!nextEnabled) return;
     console.log("next");
     dispatchOrientation({ type: "next" });
-  };
-
-  const fullScreenHandler: MouseEventHandler<HTMLDivElement> = (event) => {
-    event.preventDefault();
-    console.log("fullscreen");
   };
 
   const url = slide.url || "";
@@ -189,10 +193,10 @@ function App() {
     <div className="App" ref={appRef}>
       <div className="overlay">
         <div className="overlay-content">
-          {true && (
+          {requireRotate && (
             <RequestRotate orientation={orientation.currentOrientation} />
           )}
-          {caption && <div className="caption">{caption}</div>}
+          {caption && <div className="caption">{captionText}</div>}
           <div className="controls">
             <div
               className="controls-previous"
@@ -201,9 +205,6 @@ function App() {
             >
               previous
             </div>
-            {/* <div className="controls-fullscreen" onClick={fullScreenHandler}>
-            fullscreen
-          </div> */}
             <div
               className="controls-next"
               style={nextStyles}

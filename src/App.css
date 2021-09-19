@@ -11,6 +11,7 @@ body {
   justify-content: center;
   align-items: stretch;
   min-height: 100vh;
+  height: var(--app-height);
 }
 
 .App .EssentialRectImg {
@@ -22,10 +23,7 @@ body {
   position: fixed;
   width: 100vw;
   height: 100vh;
-  /* bottom: 1em;
-  left: 1em;
-  right: 1em;
-  font-size: large; */
+  height: var(--app-height);
 }
 
 .overlay-content {
@@ -35,6 +33,7 @@ body {
   align-items: center;
   padding: 1em;
   height: 100vh;
+  height: var(--app-height);
 }
 
 .controls {
