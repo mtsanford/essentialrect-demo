@@ -27,12 +27,8 @@ function Logo() {
 function Rotate() {
   return (
     <div className="rotate-wrapper">
-      <img src="./images/rotate-phone.png" />
-      <p>Best viewed on a phone in full screen.</p>
-      <p>
-        Rotate phone to view in different orientations, or resize browser
-        window.
-      </p>
+      <img src={rotatePortrait} alt="" />
+      <p>Best viewed on a phone with orientation lock off, and controls hidden.</p>
     </div>
   );
 }
@@ -111,8 +107,7 @@ function RequestRotate(props: any) {
     <div className="requestrotate-wrapper">
       <img src={icon} alt="" />
       <p>
-        To continue, rotate phone to {orientationText} orientation, or resize
-        browser
+        View this image in {orientationText} orientation, by rotating the phone or resizing the browser.
       </p>
     </div>
   );
@@ -142,13 +137,14 @@ function App() {
     });
   }, [appRect]);
 
-  useEffect( () => {
-    const dynamicAppHeight = () => {
-      const doc = document.documentElement
-      doc.style.setProperty('--app-height', `${window.innerHeight}px`)    
-    }
-    window.addEventListener('resize', dynamicAppHeight);
-  }, []);
+  // useEffect( () => {
+  //   const dynamicAppHeight = () => {
+  //     const doc = document.documentElement
+  //     doc.style.setProperty('--app-height', `${window.innerHeight}px`)    
+  //   }
+  //   window.addEventListener('resize', dynamicAppHeight);
+  //   dynamicAppHeight();
+  // }, []);
 
   const previousHandler: MouseEventHandler<HTMLDivElement> = (event) => {
     event.preventDefault();
@@ -196,7 +192,7 @@ function App() {
           {requireRotate && (
             <RequestRotate orientation={orientation.currentOrientation} />
           )}
-          {caption && <div className="caption">{captionText}</div>}
+          {captionText && <div className="caption">{captionText}</div>}
           <div className="controls">
             <div
               className="controls-previous"

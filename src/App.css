@@ -10,8 +10,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
-  min-height: 100vh;
-  height: var(--app-height);
+  height: 100%;
 }
 
 .App .EssentialRectImg {
@@ -22,8 +21,7 @@ body {
   z-index: 10;
   position: fixed;
   width: 100vw;
-  height: 100vh;
-  height: var(--app-height);
+  height: 100%;
 }
 
 .overlay-content {
@@ -32,8 +30,7 @@ body {
   justify-content: flex-end;
   align-items: center;
   padding: 1em;
-  height: 100vh;
-  height: var(--app-height);
+  height: 100%;
 }
 
 .controls {
@@ -60,6 +57,7 @@ body {
 /* ----- */
 
 .logo-wrapper {
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -91,16 +89,16 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-size: 1.5em;
 }
 
 .rotate-wrapper img {
   width: 20%;
-  margin-bottom: 5vh;
 }
 
 @media (max-aspect-ratio: 1/1) {
   .rotate-wrapper img {
-    width: 40%;
+    width: 50%;
   }
 }
 
@@ -141,10 +139,11 @@ body {
   padding: 0em;
   border-radius: 0.6em;
   margin: 1em 0.5em;
+  font-size: 0.9em;
 }
 
 .requestrotate-wrapper img {
-  width: 3em;
+  width: 2.5em;
 }
 
 .requestrotate-wrapper p {
@@ -156,38 +155,3 @@ body {
   width: 20em;
 }
 
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
