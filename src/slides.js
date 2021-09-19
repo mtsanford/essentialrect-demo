@@ -6,10 +6,24 @@ const slides = [
     type: "rotate",
   },
   {
-    url: "./images/downtown.jpg",
-    type: "regular",
-    caption: "This is a typical photo taken on a phone before editing",
+    url: "./images/sf_houseboats.jpg",
+    essentialRect: {"left":675,"top":105,"width":536,"height":754},
+    type: "essentialRect",
+    caption: "Agnostic composition means images looking good when fitted in different ascpect ratios",
     requireRotate: true,
+  },
+  {
+    url: "./images/bali_surfers.jpg",
+    essentialRect: {"left":672,"top":88,"width":528,"height":809},
+    type: "essentialRect",
+    caption: "Ultimately we have no control of what screens our images are shown on.",
+    requireRotate: true,
+  },
+  {
+    url: "./images/ocean_view.jpg",
+    essentialRect: {"left":213,"top":257,"width":666,"height":552},
+    type: "essentialRect",
+    caption: "So why not let them look good anywhere?",
   },
   {
     url: "./images/downtown_cropped.jpg",

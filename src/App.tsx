@@ -1,7 +1,6 @@
 import React, {
   CSSProperties,
   MouseEventHandler,
-  useState,
   useReducer,
   useEffect,
 } from "react";
@@ -14,11 +13,14 @@ import useClientRect from "./essential-rect/use-client-rect";
 
 import rotatePortrait from "./assets/icons/rotate_portrait.png";
 import rotateLandscape from "./assets/icons/rotate_landscape.png";
+import rotateLandscape512 from "./assets/icons/rotate_landscape_512.png";
+import leftArrow from "./assets/icons/left-arrow.png";
+import rightArrow from "./assets/icons/right-arrow.png";
 
 function Logo() {
   return (
     <div className="logo-wrapper">
-      <img src="./images/essentialrect-logo.png" />
+      <img src="./images/essentialrect-logo.png" alt=""/>
       <p>Agnostic composition for responsive image display</p>
     </div>
   );
@@ -27,7 +29,7 @@ function Logo() {
 function Rotate() {
   return (
     <div className="rotate-wrapper">
-      <img src={rotatePortrait} alt="" />
+      <img src={rotateLandscape512} alt="" />
       <p>Best viewed on a phone with orientation lock off, and controls hidden.</p>
     </div>
   );
@@ -128,7 +130,7 @@ function App() {
   const nextEnabled =
     orientation.slideIndex < slides.length - 1 && !requireRotate;
   const previousEnabled = orientation.slideIndex > 0;
-  const captionText = !requireRotate && caption;
+  const captionText = caption;
 
   useEffect(() => {
     dispatchOrientation({
@@ -136,15 +138,6 @@ function App() {
       rect: appRect,
     });
   }, [appRect]);
-
-  // useEffect( () => {
-  //   const dynamicAppHeight = () => {
-  //     const doc = document.documentElement
-  //     doc.style.setProperty('--app-height', `${window.innerHeight}px`)    
-  //   }
-  //   window.addEventListener('resize', dynamicAppHeight);
-  //   dynamicAppHeight();
-  // }, []);
 
   const previousHandler: MouseEventHandler<HTMLDivElement> = (event) => {
     event.preventDefault();
@@ -189,24 +182,14 @@ function App() {
     <div className="App" ref={appRef}>
       <div className="overlay">
         <div className="overlay-content">
-          {requireRotate && (
-            <RequestRotate orientation={orientation.currentOrientation} />
-          )}
+          {requireRotate && <RequestRotate orientation={orientation.currentOrientation} />}
           {captionText && <div className="caption">{captionText}</div>}
           <div className="controls">
-            <div
-              className="controls-previous"
-              style={prevStyles}
-              onClick={previousHandler}
-            >
-              previous
+            <div style={prevStyles} onClick={previousHandler}>
+              <img src={leftArrow} alt="" />
             </div>
-            <div
-              className="controls-next"
-              style={nextStyles}
-              onClick={nextHandler}
-            >
-              next
+            <div style={nextStyles} onClick={nextHandler}>
+              <img src={rightArrow} alt="" />
             </div>
           </div>
         </div>
