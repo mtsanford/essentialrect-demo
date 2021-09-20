@@ -160,3 +160,12 @@ body {
   }
 }
 
+/* ------------ */
+
+.text-wrapper {
+  margin: 0 4em;
+}
+
+.text-wrapper p {
+  font-size: 1.2em;
+}

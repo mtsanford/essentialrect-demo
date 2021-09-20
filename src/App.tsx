@@ -16,11 +16,12 @@ import rotateLandscape from "./assets/icons/rotate_landscape.png";
 import rotateLandscape512 from "./assets/icons/rotate_landscape_512.png";
 import leftArrow from "./assets/icons/left-arrow.png";
 import rightArrow from "./assets/icons/right-arrow.png";
+import { setMaxListeners } from "process";
 
 function Logo() {
   return (
     <div className="logo-wrapper">
-      <img src="./images/essentialrect-logo.png" alt=""/>
+      <img src="./images/essentialrect-logo.png" alt="" />
       <p>Agnostic composition for responsive image display</p>
     </div>
   );
@@ -30,7 +31,20 @@ function Rotate() {
   return (
     <div className="rotate-wrapper">
       <img src={rotateLandscape512} alt="" />
-      <p>Best viewed on a phone with orientation lock off, and controls hidden.</p>
+      <p>
+        Best viewed on a phone with orientation lock off, and controls hidden.
+      </p>
+    </div>
+  );
+}
+
+function Text(props: any) {
+  const { title, text } = props;
+
+  return (
+    <div className="text-wrapper">
+      {title && <h1>{title}</h1>}
+      {text && <p>{text}</p>}
     </div>
   );
 }
@@ -67,9 +81,8 @@ const orientationReducer = (
           currentOrientation: orientation,
         };
       } else {
-        const orientationChanged =
-          state.initialOrientation !== orientation;
-        
+        const orientationChanged = state.initialOrientation !== orientation;
+
         let orientationChangedNew = [...state.orientationChanged];
         if (orientationChanged) {
           orientationChangedNew[state.slideIndex] = true;
@@ -112,7 +125,8 @@ function RequestRotate(props: any) {
     <div className="requestrotate-wrapper">
       <img src={icon} alt="" />
       <p>
-        View this image in {orientationText} orientation, by rotating the phone or resizing the browser.
+        View this image in {orientationText} orientation, by rotating the phone
+        or resizing the browser.
       </p>
     </div>
   );
@@ -129,7 +143,9 @@ function App() {
   const slide: any = slides[orientation.slideIndex];
   const caption = slide.caption;
 
-  const requireRotate = slide.requireRotate && !orientation.orientationChanged[orientation.slideIndex];
+  const requireRotate =
+    slide.requireRotate &&
+    !orientation.orientationChanged[orientation.slideIndex];
   const nextEnabled =
     orientation.slideIndex < slides.length - 1 && !requireRotate;
   const previousEnabled = orientation.slideIndex > 0;
@@ -179,13 +195,18 @@ function App() {
     case "regular":
       content = <RegularFitImage imageURL={url} />;
       break;
+    case "text":
+      content = <Text title={slide.title} text={slide.text} />;
+      break;
   }
 
   return (
     <div className="App" ref={appRef}>
       <div className="overlay">
         <div className="overlay-content">
-          {requireRotate && <RequestRotate orientation={orientation.currentOrientation} />}
+          {requireRotate && (
+            <RequestRotate orientation={orientation.currentOrientation} />
+          )}
           {captionText && <div className="caption">{captionText}</div>}
           <div className="controls">
             <div style={prevStyles} onClick={previousHandler}>
