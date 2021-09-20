@@ -7,6 +7,7 @@ import useImageRect from "./use-image-rect";
 
 const containerStyles: CSSProperties = {
   position: "relative",
+  height: "100%",
   backgroundColor: "black",
   overflow: "hidden",
   border: "0px",
@@ -37,6 +38,7 @@ const EssentialRectImg: React.FC<{
     left: `${iconMargin}px`,
     width: `${iconSize}px`,
     height: `${iconSize * 0.4}px`,
+    border: `solid black ${iconSize * 0.08}px`,
   }
 
   if (imageRect && !rectEmpty(containerRect)) {
@@ -61,7 +63,6 @@ const EssentialRectImg: React.FC<{
       style={containerStyles}
       ref={containerRef}
     >
-      {/* <img src={erIcon} alt="" style={erIconStyles} /> */}
       <div style={erIconStyles} />
       <img
         src={src}
