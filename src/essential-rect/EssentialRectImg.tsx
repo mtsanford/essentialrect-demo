@@ -4,7 +4,6 @@ import { fitRect } from "./fit-essential-rect";
 import useClientRect from "./use-client-rect";
 import { Rect, rectEmpty } from "./Rect";
 import useImageRect from "./use-image-rect";
-import erIcon from "./er_icon.png";
 
 const containerStyles: CSSProperties = {
   position: "relative",
@@ -15,6 +14,7 @@ const containerStyles: CSSProperties = {
 };
 
 const erIconDefaultStyles: CSSProperties = {
+  backgroundColor: "red",
   zIndex: 10,
   position: "absolute",
   border: "1px solid black",
@@ -36,6 +36,7 @@ const EssentialRectImg: React.FC<{
     top: `${iconMargin}px`,
     left: `${iconMargin}px`,
     width: `${iconSize}px`,
+    height: `${iconSize * 0.4}px`,
   }
 
   if (imageRect && !rectEmpty(containerRect)) {
@@ -60,7 +61,8 @@ const EssentialRectImg: React.FC<{
       style={containerStyles}
       ref={containerRef}
     >
-      <img src={erIcon} alt="" style={erIconStyles} />
+      {/* <img src={erIcon} alt="" style={erIconStyles} /> */}
+      <div style={erIconStyles} />
       <img
         src={src}
         alt=""

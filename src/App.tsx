@@ -16,7 +16,6 @@ import rotateLandscape from "./assets/icons/rotate_landscape.png";
 import rotateLandscape512 from "./assets/icons/rotate_landscape_512.png";
 import leftArrow from "./assets/icons/left-arrow.png";
 import rightArrow from "./assets/icons/right-arrow.png";
-import { setMaxListeners } from "process";
 
 function Logo() {
   return (
