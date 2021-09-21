@@ -92,12 +92,13 @@ body {
 }
 
 .screen-recommendation-wrapper img {
-  width: 20%;
+  margin-bottom: 1em;
+  width: 15%;
 }
 
 @media (max-aspect-ratio: 1/1) {
   .screen-recommendation-wrapper img {
-    width: 50%;
+    width: 40%;
   }
 }
 

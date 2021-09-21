@@ -13,7 +13,7 @@ import useClientRect from "./essential-rect/use-client-rect";
 
 import rotatePortrait from "./assets/icons/rotate_portrait.png";
 import rotateLandscape from "./assets/icons/rotate_landscape.png";
-import rotateLandscape512 from "./assets/icons/rotate_landscape_512.png";
+import rotateLandscapeLarge from "./assets/icons/rotate_landscape_large.png";
 import leftArrow from "./assets/icons/left-arrow.png";
 import rightArrow from "./assets/icons/right-arrow.png";
 
@@ -97,7 +97,7 @@ function Logo() {
 function ScreenRecommendation() {
   return (
     <div className="screen-recommendation-wrapper">
-      <img src={rotateLandscape512} alt="" />
+      <img src={rotateLandscapeLarge} alt="" />
       <p>
         Best viewed on a phone with orientation lock off, and controls hidden.
       </p>
@@ -170,7 +170,6 @@ function App() {
   );
   const [appRef, appRect] = useClientRect();
   const slide: any = slides[orientation.slideIndex];
-  const caption = slide.caption;
 
   const requireRotate =
     slide.requireRotate &&
@@ -178,7 +177,7 @@ function App() {
   const nextEnabled =
     orientation.slideIndex < slides.length - 1 && !requireRotate;
   const previousEnabled = orientation.slideIndex > 0;
-  const captionText = caption;
+  const captionText = slide.caption;
 
   useEffect(() => {
     dispatchOrientation({
