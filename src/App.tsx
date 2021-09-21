@@ -189,14 +189,12 @@ function App() {
   const previousHandler: MouseEventHandler<HTMLDivElement> = (event) => {
     event.preventDefault();
     if (!previousEnabled) return;
-    console.log("previous");
     dispatchOrientation({ type: "previous" });
   };
 
   const nextHandler: MouseEventHandler<HTMLDivElement> = (event) => {
     event.preventDefault();
     if (!nextEnabled) return;
-    console.log("next");
     dispatchOrientation({ type: "next" });
   };
 

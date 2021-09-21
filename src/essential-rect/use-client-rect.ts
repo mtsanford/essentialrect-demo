@@ -1,33 +1,39 @@
-import { useCallback, useRef, useState } from 'react';
-import { Rect, emptyRect } from './Rect';
+/*
+ *  Stay up to date on a divs client area!
+ *
+ *  const [myref, myClientRect] = useClientRect();
+ *  return <>
+ *    <div ref={myref} />
+ *    <p>width: {myClientRect.width}, height: {myClientRect.height}</p>
+ *  <>;
+*/
+
+import { useCallback, useRef, useState } from "react";
+import { Rect, emptyRect } from "./Rect";
 
 const useClientRect = () => {
-  const ref = useRef(null);
-  const [resizeObserver, setResizeObserver] = useState<ResizeObserver>();
   const [clientRect, setClientRect] = useState<Rect>(emptyRect);
+  const resizeObserver = useRef<ResizeObserver>(
+    new ResizeObserver((entries: ResizeObserverEntry[]) => {
+      const newClientRect: Rect = {
+        left: 0,
+        top: 0,
+        width: entries[0].contentRect.width,
+        height: entries[0].contentRect.height,
+      };
 
-  const resizeHandler = useCallback((entries) => {
-    const newClientRect: Rect = {
-      left: 0,
-      top: 0,
-      width: entries[0].contentRect.width,
-      height: entries[0].contentRect.height,
-    };
+      setClientRect(newClientRect);
+    })
+  );
 
-    setClientRect(newClientRect);
-  }, []);
-
-  const setRef = useCallback((domElement) => {
-    if (ref.current && resizeObserver) {
-      resizeObserver.unobserve(ref.current);
+  const setRef = useCallback((domElement: HTMLDivElement) => {
+    if (domElement === null) {
+      if (resizeObserver.current) {
+        resizeObserver.current.disconnect();
+      }
+    } else {
+      resizeObserver.current.observe(domElement);
     }
-
-    if (domElement) {
-      const ro = new ResizeObserver(resizeHandler);
-      ro.observe(domElement);
-      setResizeObserver(ro);
-    }
-    ref.current = domElement;
   }, []);
 
   return [setRef, clientRect] as const;
