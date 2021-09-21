@@ -99,7 +99,7 @@ function ScreenRecommendation() {
     <div className="screen-recommendation-wrapper">
       <img src={rotateLandscapeLarge} alt="" />
       <p>
-        Best viewed on a phone with orientation lock off, and controls hidden.
+        Best viewed on a mobile device with orientation lock off, and controls hidden.
       </p>
     </div>
   );
