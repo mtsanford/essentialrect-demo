@@ -1,0 +1,13 @@
+.EssentialRectImg {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    border: 0px;
+    margin: 0px;
+}
+
+.EssentialRectImg img {
+    position: absolute;
+    display: block;
+}
+

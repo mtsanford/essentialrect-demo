@@ -33,7 +33,6 @@ and used to fill the remaining display area.`
   },
   {
     url: "./images/sax-hd-responsive-fit.jpg",
-    essentialRect: { left: 825, top: 75, width: 621, height: 755 },
     type: "regular",
   },
   {

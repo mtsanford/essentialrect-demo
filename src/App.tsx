@@ -140,7 +140,7 @@ function slideContent(slide: any) {
     case "rotate":
       return <ScreenRecommendation />;
     case "essentialRect":
-      return <EssentialRectImg src={slide.url} essentialRect={slide.essentialRect} />
+      return <EssentialRectImg src={slide.url} essentialRect={slide.essentialRect} showIcon={true} />
     case "regular":
       return <RegularFitImage imageURL={slide.url} />;
     case "text":
