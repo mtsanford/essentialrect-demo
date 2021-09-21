@@ -100,6 +100,7 @@ function ScreenRecommendation() {
       <img src={rotateLandscapeLarge} alt="" />
       <p>
         Best viewed on a mobile device with orientation lock off, and controls hidden.
+        (But a desktop browser is fine!)
       </p>
     </div>
   );
@@ -122,11 +123,14 @@ function RequestRotate(props: any) {
   const orientationText =
     props.orientation === "portrait" ? "landscape" : "portrait";
 
+  const showClass = props.show ? "requestscreen-recommendation-shown" : "requestscreen-recommendation-hidden";
+  const classes = `requestscreen-recommendation-wrapper ${showClass}`;
+
   return (
-    <div className="requestscreen-recommendation-wrapper">
+    <div className={classes}>
       <img src={icon} alt="" />
       <p>
-        View this image in {orientationText} orientation, by rotating the phone
+        View this image in {orientationText} orientation, by rotating the device
         or resizing the browser.
       </p>
     </div>
@@ -216,7 +220,7 @@ function App() {
     <div className="App" ref={appRef}>
       <div className="overlay">
         <div className="overlay-content">
-          {requireRotate && <RequestRotate orientation={orientation.currentOrientation} />}
+          <RequestRotate orientation={orientation.currentOrientation} show={requireRotate} />
           {captionText && <div className="caption">{captionText}</div>}
           <div className="controls">
             <div style={prevStyles} onClick={previousHandler}>

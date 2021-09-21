@@ -16,7 +16,7 @@ const slides = [
     url: "./images/bali_surfers.jpg",
     essentialRect: {"left":672,"top":88,"width":528,"height":809},
     type: "essentialRect",
-    caption: "Our images may be viewed in different presentation environments.",
+    caption: "Images will likely be viewed in different presentation environments.",
     requireRotate: true,
   },
   {
