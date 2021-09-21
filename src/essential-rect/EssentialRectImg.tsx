@@ -8,7 +8,7 @@ import useImageRect from "./use-image-rect";
 const containerStyles: CSSProperties = {
   position: "relative",
   height: "100%",
-  backgroundColor: "black",
+  // backgroundColor: "black",
   overflow: "hidden",
   border: "0px",
   margin: "0px",

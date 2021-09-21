@@ -26,9 +26,9 @@ function Logo() {
   );
 }
 
-function Rotate() {
+function ScreenRecommendation() {
   return (
-    <div className="rotate-wrapper">
+    <div className="screen-recommendation-wrapper">
       <img src={rotateLandscape512} alt="" />
       <p>
         Best viewed on a phone with orientation lock off, and controls hidden.
@@ -121,7 +121,7 @@ function RequestRotate(props: any) {
     props.orientation === "portrait" ? "landscape" : "portrait";
 
   return (
-    <div className="requestrotate-wrapper">
+    <div className="requestscreen-recommendation-wrapper">
       <img src={icon} alt="" />
       <p>
         View this image in {orientationText} orientation, by rotating the phone
@@ -131,9 +131,15 @@ function RequestRotate(props: any) {
   );
 }
 
+const setBackgroundColor = (color: string) => {
+  if (document && document.body) {
+    document.body.style.background = color;
+  }
+}
+
+
 function App() {
   let content;
-  // const [slideIndex, setSlideIndex] = useState<number>(0);
   const [orientation, dispatchOrientation] = useReducer(
     orientationReducer,
     orientationInitialState
@@ -181,20 +187,27 @@ function App() {
     visibility: nextEnabled ? "visible" : "hidden",
   };
 
+
+
   switch (slide.type) {
     case "logo":
+      setBackgroundColor('white');
       content = <Logo />;
       break;
     case "rotate":
-      content = <Rotate />;
+      setBackgroundColor('white');
+      content = <ScreenRecommendation />;
       break;
     case "essentialRect":
+      setBackgroundColor('black');
       content = <EssentialRectImg src={url} essentialRect={essentialRect} />;
       break;
     case "regular":
+      setBackgroundColor('black');
       content = <RegularFitImage imageURL={url} />;
       break;
     case "text":
+      setBackgroundColor('white');
       content = <Text title={slide.title} text={slide.text} />;
       break;
   }
