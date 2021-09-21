@@ -17,37 +17,6 @@ import rotateLandscape512 from "./assets/icons/rotate_landscape_512.png";
 import leftArrow from "./assets/icons/left-arrow.png";
 import rightArrow from "./assets/icons/right-arrow.png";
 
-function Logo() {
-  return (
-    <div className="logo-wrapper">
-      <img src="./images/essentialrect-logo.png" alt="" />
-      <p>Agnostic composition for responsive image display</p>
-    </div>
-  );
-}
-
-function ScreenRecommendation() {
-  return (
-    <div className="screen-recommendation-wrapper">
-      <img src={rotateLandscape512} alt="" />
-      <p>
-        Best viewed on a phone with orientation lock off, and controls hidden.
-      </p>
-    </div>
-  );
-}
-
-function Text(props: any) {
-  const { title, text } = props;
-
-  return (
-    <div className="text-wrapper">
-      {title && <h1>{title}</h1>}
-      {text && <p>{text}</p>}
-    </div>
-  );
-}
-
 type Orientation = "portrait" | "landscape" | undefined;
 
 interface OrientationState {
@@ -114,6 +83,39 @@ const orientationReducer = (
   }
 };
 
+/****** Helper components ******/
+
+function Logo() {
+  return (
+    <div className="logo-wrapper">
+      <img src="./images/essentialrect-logo.png" alt="" />
+      <p>Agnostic composition for responsive image display</p>
+    </div>
+  );
+}
+
+function ScreenRecommendation() {
+  return (
+    <div className="screen-recommendation-wrapper">
+      <img src={rotateLandscape512} alt="" />
+      <p>
+        Best viewed on a phone with orientation lock off, and controls hidden.
+      </p>
+    </div>
+  );
+}
+
+function Text(props: any) {
+  const { title, text } = props;
+
+  return (
+    <div className="text-wrapper">
+      {title && <h1>{title}</h1>}
+      {text && <p>{text}</p>}
+    </div>
+  );
+}
+
 function RequestRotate(props: any) {
   const icon =
     props.orientation === "portrait" ? rotateLandscape : rotatePortrait;
@@ -131,15 +133,37 @@ function RequestRotate(props: any) {
   );
 }
 
-const setBackgroundColor = (color: string) => {
-  if (document && document.body) {
-    document.body.style.background = color;
+function slideContent(slide: any) {
+  switch (slide.type) {
+    case "logo":
+      return <Logo />;
+    case "rotate":
+      return <ScreenRecommendation />;
+    case "essentialRect":
+      return <EssentialRectImg src={slide.url} essentialRect={slide.essentialRect} />
+    case "regular":
+      return <RegularFitImage imageURL={slide.url} />;
+    case "text":
+      return <Text title={slide.title} text={slide.text} />;
   }
 }
 
+function SlideListContent(props: any) {
+  const { currentSlide } = props;
+  return (
+    <>
+      {slides.map((slide: any, index) => (
+        <div key={index} className="slide-wrapper" style={{ display: index === currentSlide ? 'block' : 'none'}}>
+          {slideContent(slide)}
+        </div>
+      ))}
+    </>
+  );
+}
+
+/************************* */
 
 function App() {
-  let content;
   const [orientation, dispatchOrientation] = useReducer(
     orientationReducer,
     orientationInitialState
@@ -177,9 +201,6 @@ function App() {
     dispatchOrientation({ type: "next" });
   };
 
-  const url = slide.url || "";
-  const essentialRect = slide.essentialRect || {};
-
   const prevStyles: CSSProperties = {
     visibility: previousEnabled ? "visible" : "hidden",
   };
@@ -187,38 +208,18 @@ function App() {
     visibility: nextEnabled ? "visible" : "hidden",
   };
 
-
-
-  switch (slide.type) {
-    case "logo":
-      setBackgroundColor('white');
-      content = <Logo />;
-      break;
-    case "rotate":
-      setBackgroundColor('white');
-      content = <ScreenRecommendation />;
-      break;
-    case "essentialRect":
-      setBackgroundColor('black');
-      content = <EssentialRectImg src={url} essentialRect={essentialRect} />;
-      break;
-    case "regular":
-      setBackgroundColor('black');
-      content = <RegularFitImage imageURL={url} />;
-      break;
-    case "text":
-      setBackgroundColor('white');
-      content = <Text title={slide.title} text={slide.text} />;
-      break;
-  }
+  useEffect( () => {
+    const color = ["essentialRect", "regular"].includes(slide.type) ? "black" : "white";
+    if (document && document.body) {
+      document.body.style.background = color;
+    }
+    }, [slide.type])
 
   return (
     <div className="App" ref={appRef}>
       <div className="overlay">
         <div className="overlay-content">
-          {requireRotate && (
-            <RequestRotate orientation={orientation.currentOrientation} />
-          )}
+          {requireRotate && <RequestRotate orientation={orientation.currentOrientation} />}
           {captionText && <div className="caption">{captionText}</div>}
           <div className="controls">
             <div style={prevStyles} onClick={previousHandler}>
@@ -230,7 +231,7 @@ function App() {
           </div>
         </div>
       </div>
-      {content}
+      <SlideListContent currentSlide={orientation.slideIndex} />
     </div>
   );
 }
