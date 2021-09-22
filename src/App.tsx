@@ -137,6 +137,29 @@ function RequestRotate(props: any) {
   );
 }
 
+function Info() {
+  return (
+    <div className="info">
+      <div className="about">
+        <div className="author author-wide">essentialRect was created by Mark Sanford</div>
+        <div className="author author-narrow">essentialRect was created by</div>
+        <div className="author author-narrow">Mark Sanford</div>
+        <div className="links">
+          <div><a href="https://www.linkedin.com/in/mark-t-sanford" target="_blank" rel="noreferrer noopener">Linked In</a></div>
+          <div><a href="https://github.com/mtsanford" target="_blank" rel="noreferrer noopener">Github</a></div>
+          <div><a href="https://medium.com/@marktsanford" target="_blank" rel="noreferrer noopener">Medium</a></div>
+        </div>
+      </div>
+      <div className="credits">
+        <div>Sax player photo courtesy of <a href="https://www.pexels.com/@rodnae-prod" target="_blank" rel="noreferrer noopener">Rodnae Productions @ Pexel</a></div>
+        <div>Surfers photo courtesy of <a href="https://www.pexels.com/@khairulleon" target="_blank" rel="noreferrer noopener">Khairul Leon @ Pexel</a></div>
+        <div>Coastline photo courtesy of <a href="https://www.pexels.com/@msbln" target="_blank" rel="noreferrer noopener">Mario Schmidt @ Pexel</a></div>
+      </div>
+    </div>
+  );
+}
+
+
 function slideContent(slide: any) {
   switch (slide.type) {
     case "logo":
@@ -149,7 +172,9 @@ function slideContent(slide: any) {
       return <RegularFitImage imageURL={slide.url} />;
     case "text":
       return <Text title={slide.title} text={slide.text} />;
-  }
+    case "info":
+      return <Info />;
+    }
 }
 
 function SlideListContent(props: any) {

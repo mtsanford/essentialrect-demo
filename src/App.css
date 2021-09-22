@@ -189,3 +189,62 @@ body {
   font-size: 1.2em;
   margin-inline-end: 0px;
 }
+
+/* ------------------- */
+
+.info {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.info a {
+  text-decoration: none;
+  color: red;
+}
+
+.author {
+  font-size: 1.2em;
+  margin: 0em 1em;
+}
+
+.author-wide {
+  display: block;
+}
+
+.author-narrow {
+  display: none;
+}
+
+.links {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 1em;
+}
+
+.links div {
+  margin: 0em 1em;
+  z-index: 999;
+}
+
+
+.credits {
+  margin-top: 1em;
+  font-size: 0.7em;
+  z-index: 999;
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .links {
+    flex-direction: column;
+    width:
+  }
+  .author-wide {
+    display: none;
+  }
+  .author-narrow {
+    display: block;
+  }
+}

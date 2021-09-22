@@ -42,7 +42,7 @@ and used to fill the remaining display area.`
     caption: "The essentialRect is fit to the display area and centered as much as possible. The remainder of the image is shown as space allows."
   },
   {
-    type: "logo",
+    type: "info",
   },
 ];
 
