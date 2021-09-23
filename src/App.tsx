@@ -10,6 +10,7 @@ import slides from "./slides";
 import RegularFitImage from "./components/RegularFitImage";
 import EssentialRectImg from "./essential-rect/EssentialRectImg";
 import useClientRect from "./essential-rect/use-client-rect";
+import Info from "./info";
 
 import rotatePortrait from "./assets/icons/rotate_portrait.png";
 import rotateLandscape from "./assets/icons/rotate_landscape.png";
@@ -99,8 +100,8 @@ function ScreenRecommendation() {
     <div className="screen-recommendation-wrapper">
       <img src={rotateLandscapeLarge} alt="" />
       <p>
-        Best viewed on a mobile device with orientation lock off, and controls hidden.
-        (But a desktop browser is fine!)
+        Best viewed on a mobile device with orientation lock off, and controls
+        hidden. (But a desktop browser is fine!)
       </p>
     </div>
   );
@@ -123,7 +124,9 @@ function RequestRotate(props: any) {
   const orientationText =
     props.orientation === "portrait" ? "landscape" : "portrait";
 
-  const showClass = props.show ? "requestscreen-recommendation-shown" : "requestscreen-recommendation-hidden";
+  const showClass = props.show
+    ? "requestscreen-recommendation-shown"
+    : "requestscreen-recommendation-hidden";
   const classes = `requestscreen-recommendation-wrapper ${showClass}`;
 
   return (
@@ -137,29 +140,6 @@ function RequestRotate(props: any) {
   );
 }
 
-function Info() {
-  return (
-    <div className="info">
-      <div className="about">
-        <div className="author author-wide">essentialRect was created by Mark Sanford</div>
-        <div className="author author-narrow">essentialRect was created by</div>
-        <div className="author author-narrow">Mark Sanford</div>
-        <div className="links">
-          <div><a href="https://www.linkedin.com/in/mark-t-sanford" target="_blank" rel="noreferrer noopener">Linked In</a></div>
-          <div><a href="https://github.com/mtsanford" target="_blank" rel="noreferrer noopener">Github</a></div>
-          <div><a href="https://medium.com/@marktsanford" target="_blank" rel="noreferrer noopener">Medium</a></div>
-        </div>
-      </div>
-      <div className="credits">
-        <div>Sax player photo courtesy of <a href="https://www.pexels.com/@rodnae-prod" target="_blank" rel="noreferrer noopener">Rodnae Productions @ Pexel</a></div>
-        <div>Surfers photo courtesy of <a href="https://www.pexels.com/@khairulleon" target="_blank" rel="noreferrer noopener">Khairul Leon @ Pexel</a></div>
-        <div>Coastline photo courtesy of <a href="https://www.pexels.com/@msbln" target="_blank" rel="noreferrer noopener">Mario Schmidt @ Pexel</a></div>
-      </div>
-    </div>
-  );
-}
-
-
 function slideContent(slide: any) {
   switch (slide.type) {
     case "logo":
@@ -167,14 +147,20 @@ function slideContent(slide: any) {
     case "rotate":
       return <ScreenRecommendation />;
     case "essentialRect":
-      return <EssentialRectImg src={slide.url} essentialRect={slide.essentialRect} showIcon={true} />
+      return (
+        <EssentialRectImg
+          src={slide.url}
+          essentialRect={slide.essentialRect}
+          showIcon={true}
+        />
+      );
     case "regular":
       return <RegularFitImage imageURL={slide.url} />;
     case "text":
       return <Text title={slide.title} text={slide.text} />;
     case "info":
       return <Info />;
-    }
+  }
 }
 
 function SlideListContent(props: any) {
@@ -182,7 +168,11 @@ function SlideListContent(props: any) {
   return (
     <>
       {slides.map((slide: any, index) => (
-        <div key={index} className="slide-wrapper" style={{ display: index === currentSlide ? 'block' : 'none'}}>
+        <div
+          key={index}
+          className="slide-wrapper"
+          style={{ display: index === currentSlide ? "block" : "none" }}
+        >
           {slideContent(slide)}
         </div>
       ))}
@@ -234,18 +224,23 @@ function App() {
     visibility: nextEnabled ? "visible" : "hidden",
   };
 
-  useEffect( () => {
-    const color = ["essentialRect", "regular"].includes(slide.type) ? "black" : "white";
+  useEffect(() => {
+    const color = ["essentialRect", "regular"].includes(slide.type)
+      ? "black"
+      : "white";
     if (document && document.body) {
       document.body.style.background = color;
     }
-    }, [slide.type])
+  }, [slide.type]);
 
   return (
     <div className="App" ref={appRef}>
       <div className="overlay">
         <div className="overlay-content">
-          <RequestRotate orientation={orientation.currentOrientation} show={requireRotate} />
+          <RequestRotate
+            orientation={orientation.currentOrientation}
+            show={requireRotate}
+          />
           {captionText && <div className="caption">{captionText}</div>}
           <div className="controls">
             <div style={prevStyles} onClick={previousHandler}>
