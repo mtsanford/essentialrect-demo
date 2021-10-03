@@ -6,11 +6,13 @@ import React, {
 } from "react";
 
 import "./App.css";
+import 'essentialrect-lib/lib/essential-rect-img.css';
+
 import slides from "./slides";
 import RegularFitImage from "./components/RegularFitImage";
-import EssentialRectImg from "./essential-rect/EssentialRectImg";
-import useClientRect from "./essential-rect/use-client-rect";
 import Info from "./info";
+
+import { EssentialRectImg, useClientRect } from 'essentialrect-lib';
 
 import rotatePortrait from "./assets/icons/rotate_portrait.png";
 import rotateLandscape from "./assets/icons/rotate_landscape.png";
