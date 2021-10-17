@@ -6,7 +6,7 @@ import React, {
 } from "react";
 
 import "./App.css";
-import 'essentialrect-lib/dist/essential-rect-img.css';
+import 'essentialrect-lib/dist/essentialrect-lib.css';
 
 import slides from "./slides";
 import RegularFitImage from "./components/RegularFitImage";
